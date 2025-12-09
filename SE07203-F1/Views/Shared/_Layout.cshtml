@@ -1,0 +1,128 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    // Lấy thông tin từ Session
+    var role = HttpContextAccessor.HttpContext.Session.GetString("role");
+    var username = HttpContextAccessor.HttpContext.Session.GetString("username");
+    var fullname = HttpContextAccessor.HttpContext.Session.GetString("fullname");
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - SIMS FPT</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/SE07203_F1.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-primary border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand text-white fw-bold" asp-area="" asp-controller="Home" asp-action="Index">
+                    <i class="bi bi-mortarboard-fill"></i> SIMS FPT
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+
+                    @* --- PHẦN MENU BÊN TRÁI --- *@
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+
+                        @if (role == "Admin")
+                        {
+                            @* Menu dành cho Admin *@
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown">
+                                    Quản lý Hệ thống
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <!-- DA SUA: Link van la RoleController nhung ten la Phan quyen -->
+                                    <li><a class="dropdown-item" asp-controller="Role" asp-action="Index">🔑 Phân quyền Tài khoản</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+
+                                    <li><a class="dropdown-item" asp-controller="Department" asp-action="Index">Phòng ban (Departments)</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Course" asp-action="Index">Môn học (Courses)</a></li>
+                                    <li><a class="dropdown-item" asp-controller="ClassSection" asp-action="Index">Lớp học phần (Classes)</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" asp-controller="Student" asp-action="Index">Sinh viên</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Lecturer" asp-action="Index">Giảng viên</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" asp-controller="Attendance" asp-action="Index">Quản lý Điểm danh</a>
+                            </li>
+                        }
+                        else if (role == "Lecturer")
+                        {
+                            @* Menu dành cho Giảng viên *@
+                            <li class="nav-item">
+                                <a class="nav-link text-white" asp-controller="ClassSection" asp-action="Index">Lịch dạy</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white fw-bold" asp-controller="Attendance" asp-action="Index">
+                                    <i class="bi bi-check2-square"></i> ĐIỂM DANH
+                                </a>
+                            </li>
+                        }
+                        else if (role == "Student")
+                        {
+                            @* Menu dành cho Sinh viên *@
+                            <li class="nav-item">
+                                <a class="nav-link text-white" asp-controller="Enrollment" asp-action="Index">Lịch học & Đăng ký</a>
+                            </li>
+                        }
+                    </ul>
+
+                    @* --- PHẦN LOGIN/LOGOUT BÊN PHẢI --- *@
+                    <ul class="navbar-nav">
+                        @if (string.IsNullOrEmpty(username))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-white" asp-controller="Register" asp-action="Index">Đăng ký</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="btn btn-light text-primary ms-2" asp-controller="Login" asp-action="Index">Đăng nhập</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item d-flex align-items-center text-white me-3">
+                                <span>Xin chào, <strong>@fullname</strong> (@role)</span>
+                            </li>
+                            <li class="nav-item">
+                                <a class="btn btn-outline-light btn-sm" asp-controller="Home" asp-action="Logout">Đăng xuất</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted bg-light">
+        <div class="container text-center py-2">
+            &copy; 2025 - SIMS System - <a asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

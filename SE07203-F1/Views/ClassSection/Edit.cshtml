@@ -1,0 +1,124 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model SE07203_F1.Models.ClassSectionEditViewModel
+
+@{
+    ViewData["Title"] = "Edit & Generate Schedule";
+}
+
+<div class="container mt-4">
+    <h2 class="text-primary">✏️ Edit & Schedule Class: <span class="text-warning">@Model.Code</span></h2>
+    <hr />
+
+    <form asp-action="Edit" method="post" class="card p-4 shadow-sm">
+
+        <input type="hidden" asp-for="Id" />
+
+        @if (ViewBag.Error != null)
+        {
+            <div class="alert alert-danger">@ViewBag.Error</div>
+        }
+
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <h5 class="text-secondary">1. Class Information</h5>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label asp-for="Code" class="form-label fw-bold">Section Code</label>
+                <input asp-for="Code" class="form-control" required placeholder="Example: SE1740" />
+            </div>
+            <div class="col-md-6 mb-3">
+                <label asp-for="Room" class="form-label fw-bold">Room</label>
+                <input asp-for="Room" class="form-control" required placeholder="Example: P.305" />
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-md-6 mb-3">
+                <label asp-for="CourseId" class="form-label fw-bold">Course</label>
+                <select asp-for="CourseId" class="form-select" asp-items="ViewBag.Courses" required>
+                    <option value="">-- Select Course --</option>
+                </select>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label asp-for="LecturerId" class="form-label fw-bold">Lecturer</label>
+                <select asp-for="LecturerId" class="form-select" asp-items="ViewBag.Lecturers" required>
+                    <option value="">-- Select Lecturer --</option>
+                </select>
+            </div>
+        </div>
+
+        <hr />
+
+        <h5 class="text-secondary">2. Schedule Configuration (Existing schedule will be replaced)</h5>
+        <div class="row bg-light p-3 rounded">
+            <div class="col-md-4 mb-3">
+                <label asp-for="StartDate" class="form-label fw-bold">Start Date</label>
+                <input asp-for="StartDate" type="date" class="form-control" required />
+            </div>
+            <div class="col-md-4 mb-3">
+                <label asp-for="EndDate" class="form-label fw-bold">End Date</label>
+                <input asp-for="EndDate" type="date" class="form-control" required />
+            </div>
+            <div class="col-md-4 mb-3">
+                <label asp-for="Slot" class="form-label fw-bold">Slot</label>
+                <select asp-for="Slot" class="form-select">
+                    <option value="1">Slot 1 (7:30 - 9:50)</option>
+                    <option value="2">Slot 2 (10:00 - 12:20)</option>
+                    <option value="3">Slot 3 (12:50 - 15:10)</option>
+                    <option value="4">Slot 4 (15:20 - 17:40)</option>
+                    <option value="5">Slot 5 (17:50 - 20:10)</option>
+                </select>
+            </div>
+
+            <div class="col-12 mt-2">
+                <label class="form-label fw-bold d-block mb-2">Select Days of Week:</label>
+                <div class="btn-group" role="group">
+                    <input type="checkbox" class="btn-check" name="DaysOfWeek" value="1" id="Mon"
+                           @(Model.DaysOfWeek != null && Model.DaysOfWeek.Contains(1) ? "checked" : "")>
+                    <label class="btn btn-outline-primary" for="Mon">Mon</label>
+
+                    <input type="checkbox" class="btn-check" name="DaysOfWeek" value="2" id="Tue"
+                           @(Model.DaysOfWeek != null && Model.DaysOfWeek.Contains(2) ? "checked" : "")>
+                    <label class="btn btn-outline-primary" for="Tue">Tue</label>
+
+                    <input type="checkbox" class="btn-check" name="DaysOfWeek" value="3" id="Wed"
+                           @(Model.DaysOfWeek != null && Model.DaysOfWeek.Contains(3) ? "checked" : "")>
+                    <label class="btn btn-outline-primary" for="Wed">Wed</label>
+
+                    <input type="checkbox" class="btn-check" name="DaysOfWeek" value="4" id="Thu"
+                           @(Model.DaysOfWeek != null && Model.DaysOfWeek.Contains(4) ? "checked" : "")>
+                    <label class="btn btn-outline-primary" for="Thu">Thu</label>
+
+                    <input type="checkbox" class="btn-check" name="DaysOfWeek" value="5" id="Fri"
+                           @(Model.DaysOfWeek != null && Model.DaysOfWeek.Contains(5) ? "checked" : "")>
+                    <label class="btn btn-outline-primary" for="Fri">Fri</label>
+
+                    <input type="checkbox" class="btn-check" name="DaysOfWeek" value="6" id="Sat"
+                           @(Model.DaysOfWeek != null && Model.DaysOfWeek.Contains(6) ? "checked" : "")>
+                    <label class="btn btn-outline-primary" for="Sat">Sat</label>
+
+                    <input type="checkbox" class="btn-check" name="DaysOfWeek" value="0" id="Sun"
+                           @(Model.DaysOfWeek != null && Model.DaysOfWeek.Contains(0) ? "checked" : "")>
+                    <label class="btn btn-outline-primary" for="Sun">Sun</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <button type="submit" class="btn btn-success btn-lg">
+                <i class="bi bi-save"></i> Save Changes & Generate Schedule
+            </button>
+            <a asp-action="Index" class="btn btn-secondary btn-lg">Back to List</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

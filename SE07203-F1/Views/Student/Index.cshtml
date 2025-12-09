@@ -1,0 +1,35 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model IEnumerable<SE07203_F1.Models.Student>
+<h1>Students</h1>
+
+<a href="@Url.Action("Create")" class="btn btn-primary mb-2">Add New Student</a>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Fullname</th>
+            <th>Account</th>
+            <th>Department</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var student in Model)
+        {
+            <tr>
+                <td>@student.Fullname</td>
+                <td>@student.Account?.Username</td>
+                <td>@student.Department?.Name</td>
+                <td>
+                    <a href="@Url.Action("Edit", new { id = student.Id })" class="btn btn-sm btn-warning">Edit</a>
+                    <a href="@Url.Action("Delete", new { id = student.Id })" class="btn btn-sm btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+    

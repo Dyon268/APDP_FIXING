@@ -1,0 +1,99 @@
+﻿@model SE07203_F1.Models.CreateClassViewModel
+
+@{
+    ViewData["Title"] = "Tạo Lớp Mới";
+}
+
+<div class="container mt-4">
+    <h2 class="text-primary">Tạo Lớp & Xếp Lịch Tự Động</h2>
+    <hr />
+
+    @if (ViewBag.Error != null)
+    {
+        <div class="alert alert-danger">@ViewBag.Error</div>
+    }
+
+    <form asp-action="Create" method="post" class="card p-4 shadow-sm">
+
+        <h5 class="text-secondary">1. Thông tin lớp học</h5>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">Mã Lớp (Code)</label>
+                <input asp-for="Code" class="form-control" required placeholder="Ví dụ: SE1740" />
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">Phòng Học</label>
+                <input asp-for="Room" class="form-control" required placeholder="Ví dụ: P.305" />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">Môn Học</label>
+                <select asp-for="CourseId" class="form-select" asp-items="ViewBag.Courses" required>
+                    <option value="">-- Chọn Môn --</option>
+                </select>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">Giảng Viên</label>
+                <select asp-for="LecturerId" class="form-select" asp-items="ViewBag.Lecturers" required>
+                    <option value="">-- Chọn Giảng Viên --</option>
+                </select>
+            </div>
+        </div>
+
+        <hr />
+
+        <h5 class="text-secondary">2. Cấu hình Lịch học</h5>
+        <div class="row bg-light p-3 rounded">
+            <div class="col-md-4 mb-3">
+                <label class="form-label fw-bold">Ngày bắt đầu</label>
+                <input asp-for="StartDate" type="date" class="form-control" required />
+            </div>
+            <div class="col-md-4 mb-3">
+                <label class="form-label fw-bold">Ngày kết thúc</label>
+                <input asp-for="EndDate" type="date" class="form-control" required />
+            </div>
+            <div class="col-md-4 mb-3">
+                <label class="form-label fw-bold">Ca học (Slot)</label>
+                <select asp-for="Slot" class="form-select">
+                    <option value="1">Slot 1 (7:30 - 9:50)</option>
+                    <option value="2">Slot 2 (10:00 - 12:20)</option>
+                    <option value="3">Slot 3 (12:50 - 15:10)</option>
+                    <option value="4">Slot 4 (15:20 - 17:40)</option>
+                    <option value="5">Slot 5 (17:50 - 20:10)</option>
+                </select>
+            </div>
+
+            <div class="col-12 mt-2">
+                <label class="form-label fw-bold d-block mb-2">Chọn các thứ trong tuần:</label>
+                <div class="btn-group" role="group">
+                    <input type="checkbox" class="btn-check" name="DaysOfWeek" value="1" id="Mon" checked>
+                    <label class="btn btn-outline-primary" for="Mon">Thứ 2</label>
+
+                    <input type="checkbox" class="btn-check" name="DaysOfWeek" value="2" id="Tue">
+                    <label class="btn btn-outline-primary" for="Tue">Thứ 3</label>
+
+                    <input type="checkbox" class="btn-check" name="DaysOfWeek" value="3" id="Wed" checked>
+                    <label class="btn btn-outline-primary" for="Wed">Thứ 4</label>
+
+                    <input type="checkbox" class="btn-check" name="DaysOfWeek" value="4" id="Thu">
+                    <label class="btn btn-outline-primary" for="Thu">Thứ 5</label>
+
+                    <input type="checkbox" class="btn-check" name="DaysOfWeek" value="5" id="Fri" checked>
+                    <label class="btn btn-outline-primary" for="Fri">Thứ 6</label>
+
+                    <input type="checkbox" class="btn-check" name="DaysOfWeek" value="6" id="Sat">
+                    <label class="btn btn-outline-primary" for="Sat">Thứ 7</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <button type="submit" class="btn btn-success btn-lg">
+                <i class="bi bi-calendar-check"></i> Lưu & Xếp Lịch
+            </button>
+            <a asp-action="Index" class="btn btn-secondary btn-lg">Quay lại</a>
+        </div>
+    </form>
+</div>

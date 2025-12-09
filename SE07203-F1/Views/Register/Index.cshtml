@@ -1,0 +1,61 @@
+﻿@model Account
+@{
+    ViewData["Title"] = "Register";
+    var roles = ViewBag.Roles as List<SE07203_F1.Models.Role>;
+    bool isError = ViewBag.IsError ?? false;
+    string errorMsg = ViewBag.Error as string;
+    bool isSuccess = ViewBag.Success ?? false;
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-4">
+            <h1 class="text-center">Register</h1>
+
+            <!-- Hiển thị Error -->
+            @if (isError && !string.IsNullOrEmpty(errorMsg))
+            {
+                <div class="alert alert-danger">Error: @errorMsg</div>
+            }
+
+            <!-- Hiển thị Success -->
+            @if (isSuccess)
+            {
+                <div class="alert alert-success">Register Successfully!</div>
+                <p class="text-center">
+                    Please <a href="@Url.Action("Index", "Login")">Login</a>.
+                </p>
+            }
+
+            <!-- Form -->
+            <form asp-action="RegisterAccount" method="POST">
+                <div class="mb-3">
+                    <label asp-for="Username" class="form-label"></label>
+                    <input asp-for="Username" class="form-control" />
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Fullname" class="form-label"></label>
+                    <input asp-for="Fullname" class="form-control" />
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Password" class="form-label"></label>
+                    <input asp-for="Password" type="password" class="form-control" />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Role</label>
+                    <select class="form-select" name="RoleId">
+                        @foreach (var r in roles)
+                        {
+                            <option value="@r.Id">@r.Name</option>
+                        }
+                    </select>
+                </div>
+
+                <button class="btn btn-success w-100">Register</button>
+            </form>
+        </div>
+    </div>
+</div>

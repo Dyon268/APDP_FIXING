@@ -1,0 +1,25 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<div class="container-fluid">
+    <div class="card">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h1>
+                    @if (ViewBag.Error != null)
+                    {
+                        <div class="alert alert-danger">
+                            @ViewBag.Error
+                        </div>
+                    }
+                </h1>
+                <p>
+                    Back to the <a href="@Url.Action("Index", "Login")">Login</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,43 @@
+﻿@model IEnumerable<SE07203_F1.Models.ClassSession>
+
+@{
+    ViewData["Title"] = "Chọn buổi học";
+}
+
+<div class="container mt-4">
+    <h3>Các buổi học của lớp</h3>
+    <a asp-action="Index" class="btn btn-secondary mb-3">&laquo; Quay lại danh sách lớp</a>
+
+    <table class="table table-hover table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>Ngày học</th>
+                <th>Ca (Slot)</th>
+                <th>Phòng</th>
+                <th>Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Date.ToString("dd/MM/yyyy")</td>
+                    <td>@item.Slot</td>
+                    <td>@item.Room</td>
+                    <td>
+                        @if (item.Date > DateTime.Now)
+                        {
+                            <span class="text-muted">Chưa đến ngày</span>
+                        }
+                        else
+                        {
+                            <a asp-action="TakeAttendance" asp-route-sessionId="@item.Id" class="btn btn-success btn-sm">
+                                <i class="bi bi-pencil-square"></i> Điểm danh
+                            </a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

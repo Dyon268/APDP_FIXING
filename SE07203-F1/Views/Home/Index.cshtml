@@ -1,0 +1,115 @@
+﻿@model SE07203_F1.Models.Account
+@{
+    ViewData["Title"] = "Home Page";
+    string role = ViewBag.role?.ToString() ?? "";
+}
+
+<style>
+    .sidebar {
+        background: #f8f9fa;
+        height: 100%;
+        border-right: 1px solid #dee2e6;
+    }
+
+    .sidebar-header {
+        font-size: 18px;
+        font-weight: 600;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #ddd;
+        margin-bottom: 10px;
+    }
+
+    .welcome-box {
+        background: white;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.05);
+        text-align: center;
+    }
+</style>
+
+<div class="container-fluid">
+    <div class="row vh-100">
+        <nav class="col-md-2 d-none d-md-block sidebar p-3">
+
+            <div class="sidebar-header">Navigation</div>
+
+            <div class="list-group">
+                @if (ViewBag.isLogin)
+                {
+                    @if (role == "Admin")
+                    {
+                        <div class="list-group-item list-group-item-secondary mt-2">Core Management</div>
+                        <a class="list-group-item" href="@Url.Action("Index", "Role")">Manage Roles</a>
+                        <a class="list-group-item" href="@Url.Action("Index", "Department")">Manage Departments</a>
+                        <a class="list-group-item" href="@Url.Action("Index", "Course")">Manage Courses</a>
+                        <a class="list-group-item" href="@Url.Action("Index", "ClassSection")">Manage Class Sections</a>
+
+                        <div class="list-group-item list-group-item-secondary mt-3">User Management</div>
+                        <a class="list-group-item" href="@Url.Action("Index", "Student")">Manage Students</a>
+                        <a class="list-group-item" href="@Url.Action("Index", "Lecturer")">Manage Lecturers</a>
+
+                        <div class="list-group-item list-group-item-secondary mt-3">Other</div>
+                        <a class="list-group-item" href="@Url.Action("Index", "Enrollment")">Manage Enrollments</a>
+                        <a class="list-group-item" href="@Url.Action("Index", "MyTask")">Task List</a>
+                    }
+
+                    else if (role == "Lecturer")
+                    {
+                        <a class="list-group-item" href="@Url.Action("Index", "ClassSection")">My Class Sections</a>
+                        <a class="list-group-item" href="@Url.Action("Index", "MyTask")">Task List</a>
+                    }
+
+                    else if (role == "Student")
+                    {
+                        <a class="list-group-item" href="@Url.Action("Index", "Enrollment")">My Enrollments</a>
+                        <a class="list-group-item" href="@Url.Action("Index", "MyTask")">My Tasks</a>
+                    }
+
+                    
+                }
+                else
+                {
+                    <div class="welcome-box">
+                        <h5>Welcome to SIMS</h5>
+                        <p>Please login or register to access system features.</p>
+
+                        <a class="btn btn-primary w-100 mb-2" href="@Url.Action("Index", "Login")">Login</a>
+                        <a class="btn btn-outline-secondary w-100" href="@Url.Action("Index", "Register")">Register</a>
+                    </div>
+                }
+            </div>
+
+        </nav>
+
+        <main class="col-md-10 ms-sm-auto px-4">
+            <div class="pt-4">
+
+                @if (ViewBag.isConnectedDatabase)
+                {
+                    <div class="alert alert-success">Connected to Database</div>
+                }
+                else
+                {
+                    <div class="alert alert-danger">Database Connection Failed</div>
+                }
+
+                @if (ViewBag.isLogin)
+                {
+                    <h2>Welcome, @Model.Fullname!</h2>
+                    <p>Role: <strong>@role</strong></p>
+                    <p>Select a function from the sidebar.</p>
+                }  
+                else
+                {
+                    <div style="margin-top: 100px;" class="text-center">
+                        <h1>Student Information Management System</h1>
+                        <p class="lead">Please login or register to begin.</p>
+                        <a href="@Url.Action("Index", "Login")" class="btn btn-lg btn-primary mt-3 px-4">Login Now</a>
+                    </div>
+                }
+            </div>
+        </main>
+
+    </div>
+</div>

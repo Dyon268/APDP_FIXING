@@ -1,0 +1,48 @@
+﻿@model SE07203_F1.Models.AttendanceViewModel
+
+<h2>Điểm danh: Ngày @Model.Date.ToString("dd/MM/yyyy") - Slot @Model.Slot</h2>
+
+<form asp-action="TakeAttendance" method="post">
+    <input type="hidden" asp-for="SessionId" />
+    <input type="hidden" asp-for="Date" />
+    <input type="hidden" asp-for="Slot" />
+
+    <table class="table table-bordered table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Mã SV</th>
+                <th>Tên Sinh Viên</th>
+                <th class="text-center">Có mặt (Present)</th>
+                <th class="text-center">Vắng (Absent)</th>
+                <th class="text-center">Muộn (Late)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Items.Count; i++)
+            {
+                <tr>
+                    <td>
+                        @Model.Items[i].StudentCode
+                        <input type="hidden" asp-for="Items[i].EnrollmentId" />
+                        <input type="hidden" asp-for="Items[i].StudentName" />
+                        <input type="hidden" asp-for="Items[i].StudentCode" />
+                    </td>
+                    <td>@Model.Items[i].StudentName</td>
+
+                    <td class="text-center">
+                        <input type="radio" asp-for="Items[i].Status" value="Present" class="form-check-input" />
+                    </td>
+                    <td class="text-center">
+                        <input type="radio" asp-for="Items[i].Status" value="Absent" class="form-check-input" />
+                    </td>
+                    <td class="text-center">
+                        <input type="radio" asp-for="Items[i].Status" value="Late" class="form-check-input" />
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <button type="submit" class="btn btn-primary btn-lg">Lưu Điểm Danh</button>
+    <a href="javascript:history.back()" class="btn btn-secondary">Quay lại</a>
+</form>

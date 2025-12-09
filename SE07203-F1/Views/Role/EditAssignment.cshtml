@@ -1,0 +1,59 @@
+﻿@model SE07203_F1.Models.Account
+
+@{
+    ViewData["Title"] = "Thay doi Role";
+    var currentAccountId = Context.Session.GetInt32("id");
+}
+
+<h1>Chinh sua Role cho Tai khoan</h1>
+<h2><span class="badge bg-primary">@Model.Fullname (@Model.Username)</span></h2>
+<hr />
+
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">@ViewBag.Error</div>
+}
+
+<div class="row">
+    <div class="col-md-6">
+        @if (Model.Id == currentAccountId)
+        {
+            <div class="alert alert-warning">
+                <strong>Canh bao:</strong> Ban khong the thay doi vai tro cua tai khoan hien tai dang dang nhap.
+            </div>
+            <a asp-action="Index" class="btn btn-secondary btn-lg">Quay lai</a>
+        }
+        else
+        {
+            <form asp-action="EditAssignment" asp-route-id="@Model.Id" method="post">
+                @Html.AntiForgeryToken()
+
+                <div class="mb-3">
+                    <label for="RoleId" class="form-label fw-bold">Role hien tai:</label>
+                    <p class="form-control-static">@Model.Role?.Name</p>
+                </div>
+
+                <div class="mb-3">
+                    <label for="RoleId" class="form-label fw-bold">Chon Role moi:</label>
+                    <select id="RoleId" name="RoleId" class="form-select" required>
+                        @foreach (var role in (SelectList)ViewBag.Roles)
+                        {
+                            <option value="@role.Value" selected="@role.Selected">@role.Text</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="form-group mt-4">
+                    <button type="submit" class="btn btn-success btn-lg">Luu Thay Doi Role</button>
+                    <a asp-action="Index" class="btn btn-secondary btn-lg">Huy bo</a>
+                </div>
+            </form>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

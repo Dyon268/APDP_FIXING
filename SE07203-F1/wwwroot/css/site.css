@@ -1,0 +1,30 @@
+/* Sidebar Styling */
+.sidebar {
+    min-height: 100vh;
+    background: #212529; /* Dark background */
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+}
+
+.nav-link {
+    color: #cfd2d6; /* Light gray text */
+    margin-bottom: 5px;
+    border-radius: 5px;
+    transition: all 0.3s;
+}
+
+    .nav-link:hover, .nav-link.active {
+        background-color: #0d6efd; /* Blue Bootstrap primary */
+        color: #ffffff;
+        padding-left: 20px; /* Hi?u ?ng ??y ch? sang ph?i */
+    }
+
+    .nav-link.text-danger:hover {
+        background-color: #dc3545; /* Red for logout */
+    }
+
+/* Card Styling */
+.card-hover:hover {
+    transform: translateY(-5px);
+    transition: transform 0.3s;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}

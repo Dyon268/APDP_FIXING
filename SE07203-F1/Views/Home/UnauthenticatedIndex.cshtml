@@ -1,0 +1,100 @@
+﻿@model dynamic
+@{
+    ViewData["Title"] = "SIMS Portal";
+    // Đặt layout nếu có
+    // Layout = "_Layout";
+}
+
+<!-- Tải Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+     @@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
+     body {
+         font-family: 'Inter', sans-serif;
+         margin: 0;
+         padding: 0;
+         overflow: hidden;
+     }
+</style>
+<script>
+    tailwind.config = {
+        theme: {
+            extend: {
+                colors: {
+                    // Màu sắc chủ đạo: Xanh Dương (Blue)
+                    'main-bg': '#f0f4ff',
+                    'accent-blue': '#1e40af',
+                    'soft-blue': '#3b82f6',
+                    'light-gray-bg': '#f9fafb',
+                },
+            }
+        }
+    }
+</script>
+
+<!-- Bố cục chia hai cột (Split Layout) -->
+<div class="flex h-screen w-screen">
+
+    <!-- Cột Trái: Đăng nhập & Đăng ký (Nền Trắng) -->
+    <div class="w-full lg:w-1/2 bg-white p-8 md:p-16 flex flex-col justify-center shadow-lg lg:shadow-none">
+
+        <!-- Khu vực Logo/Thương hiệu -->
+        <div class="mb-8">
+            <div class="flex items-center space-x-2">
+                <span class="text-xl font-extrabold text-accent-blue">SIMS</span>
+                <span class="text-xl font-light text-gray-700">PORTAL</span>
+            </div>
+        </div>
+
+        <!-- Tiêu đề và Mô tả -->
+        <h2 class="text-2xl font-bold text-gray-900 mb-1">Chào mừng đến với Cổng thông tin</h2>
+        <p class="text-gray-500 mb-6 text-sm">Vui lòng chọn tùy chọn phù hợp để tiếp tục truy cập hệ thống.</p>
+
+        <!-- Khu vực 2 nút hành động chính (Giảm kích thước và khoảng cách) -->
+        <div class="max-w-xs space-y-4">
+
+            <!-- Nút Đăng nhập -->
+            <button onclick="window.location.href='/Login/Index'"
+                    class="w-full bg-accent-blue text-white p-4 rounded-lg font-bold shadow-lg hover:bg-soft-blue transition duration-150 text-lg">
+                ĐĂNG NHẬP (Dùng tài khoản đã có)
+            </button>
+
+            <!-- Nút Đăng ký -->
+            <button onclick="window.location.href='/Register/Index'"
+                    class="w-full bg-white text-soft-blue border-2 border-soft-blue p-4 rounded-lg font-bold hover:bg-main-bg transition duration-150 text-lg">
+                ĐĂNG KÝ (Tạo tài khoản mới)
+            </button>
+
+
+            <p class="text-gray-500 text-xs text-center pt-2">
+                Hệ thống Quản lý Thông tin Trường học (SIMS)
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- Cột Phải: Hình ảnh & Cổng thông tin (Nền Xanh Nhạt) -->
+    <div class="hidden lg:flex w-1/2 bg-main-bg flex-col justify-center items-center relative p-16">
+        <div class="absolute top-10 right-10 text-gray-700 text-xl font-medium">SIMS Portal</div>
+
+        <!-- Vùng chứa Hình ảnh trừu tượng/ minh họa (Giảm kích thước) -->
+        <div class="w-72 h-72 bg-white rounded-xl shadow-2xl p-4 flex justify-center items-center transform rotate-3 border-4 border-white transition-transform duration-500 ease-in-out hover:rotate-0">
+            <!-- Mô phỏng minh họa: Quản lý học tập -->
+            <div class="w-full h-full bg-soft-blue rounded-lg relative flex flex-col justify-center items-center p-4">
+                <svg class="w-16 h-16 text-white mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.404 9.332 5 7.825 5c-4.48 0-8.156 3.676-8.156 8.156 0 2.24 1.12 4.244 2.894 5.314M12 6.253c1.168-.849 2.668-1.253 4.175-1.253 4.48 0 8.156 3.676 8.156 8.156 0 2.24-1.12 4.244-2.894 5.314M12 6.253a5.5 5.5 0 011.667-.318 5.5 5.5 0 011.666-.318"></path>
+                </svg>
+                <span class="text-white text-lg font-bold">HỌC TẬP</span>
+            </div>
+        </div>
+
+        <div class="mt-6 text-center max-w-sm">
+            <h4 class="text-lg font-semibold text-gray-800">Quản lý Học tập Toàn diện</h4>
+            <p class="text-gray-600 text-xs mt-1">Nền tảng giúp bạn theo dõi điểm số, chuyên cần và lịch học tập một cách dễ dàng.</p>
+        </div>
+
+    </div>
+
+</div>

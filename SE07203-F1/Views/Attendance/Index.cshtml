@@ -1,0 +1,37 @@
+﻿@model IEnumerable<SE07203_F1.Models.ClassSection>
+
+@{
+    ViewData["Title"] = "Chọn lớp điểm danh";
+}
+
+<div class="container mt-4">
+    <h2 class="text-primary"><i class="bi bi-calendar-check"></i> Danh sách lớp dạy</h2>
+    <hr />
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-warning">Bạn chưa được phân công lớp nào.</div>
+    }
+    else
+    {
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                <div class="col-md-4 mb-3">
+                    <div class="card shadow-sm h-100 border-primary">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="card-title mb-0">@item.Code</h5>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text"><strong>Môn:</strong> @item.Course.Name</p>
+                            <p class="card-text"><strong>Phòng:</strong> @item.Room</p>
+                            <a asp-action="ListSessions" asp-route-classId="@item.Id" class="btn btn-outline-primary w-100">
+                                Xem các buổi học
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

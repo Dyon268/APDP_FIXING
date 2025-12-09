@@ -1,0 +1,39 @@
+﻿@model SE07203_F1.Models.Student
+
+@{
+    ViewData["Title"] = ViewData["Title"] ?? "Student Form";
+    var action = ViewData["Title"].ToString() == "Edit" ? "Edit" : "Create";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<form asp-action="@action" method="post">
+    @* --- BẮT BUỘC PHẢI CÓ DÒNG NÀY --- *@
+    <input type="hidden" asp-for="Id" />
+    @* ---------------------------------- *@
+
+    <div class="mb-3">
+        <label asp-for="Fullname" class="form-label"></label>
+        <input asp-for="Fullname" class="form-control" />
+        <span asp-validation-for="Fullname" class="text-danger"></span>
+    </div>
+
+    @* Các phần khác giữ nguyên *@
+    <div class="mb-3">
+        <label asp-for="AccountId">Account</label>
+        <select asp-for="AccountId" asp-items="ViewBag.Accounts" class="form-select"></select>
+        <span asp-validation-for="AccountId" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="DepartmentId">Department</label>
+        <select asp-for="DepartmentId" asp-items="ViewBag.Departments" class="form-select"></select>
+        <span asp-validation-for="DepartmentId" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-success">Submit</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,101 @@
+﻿@model IEnumerable<SE07203_F1.Models.Account>
+
+@{
+    ViewData["Title"] = "Phan quyen Tai khoan";
+}
+
+<div class="container mt-4">
+    <div class="row mb-4 align-items-center">
+        <div class="col-md-8">
+            <h1 class="text-primary"><i class="bi bi-person-lock me-2"></i> Phan quyen Tai khoan</h1>
+            <p class="text-muted">Su dung chuc nang nay de thay doi Role (Admin, Lecturer, Student) cho tung nguoi dung.</p>
+        </div>
+        <div class="col-md-4 text-end">
+            <!-- Nut co the them o day neu can, nhung hien tai chi co nut Thay doi Role trong bang -->
+        </div>
+    </div>
+
+    <!-- Khu vuc Thong bao -->
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success shadow-sm">@TempData["SuccessMessage"]</div>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger shadow-sm">@TempData["ErrorMessage"]</div>
+    }
+
+    <!-- Khu vuc Tim kiem (Them bo cuc dep hon) -->
+    <div class="card p-3 mb-4 shadow-lg border-0">
+        <form asp-action="Index" method="get">
+            <div class="input-group input-group-lg">
+                <input type="text" name="searchString" class="form-control"
+                       value="@ViewData["CurrentFilter"]"
+                       placeholder="Tim kiem theo Ten, Username hoac Role..." />
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-search me-1"></i> Tim kiem
+                </button>
+                <a asp-action="Index" class="btn btn-outline-secondary">Xem tat ca</a>
+            </div>
+        </form>
+    </div>
+
+    <!-- Bang Danh sach (Bo cuc dep hon) -->
+    <div class="card shadow-lg border-0">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover mb-0">
+                    <thead class="table-dark">
+                        <tr>
+                            <th class="py-3">ID</th>
+                            <th class="py-3">Ten day du</th>
+                            <th class="py-3">Username</th>
+                            <th class="py-3">Role hien tai</th>
+                            <th class="py-3" style="width: 200px;">Thao tac</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.Id</td>
+                                <td>@item.Fullname</td>
+                                <td>@item.Username</td>
+                                <td>
+                                    @{
+                                        // Dùng switch expression để gán màu Bootstrap theo Role
+                                        string roleClass = item.Role?.Name switch
+                                        {
+                                            "Admin" => "bg-danger",
+                                            "Lecturer" => "bg-info",
+                                            "Student" => "bg-success",
+                                            _ => "bg-secondary"
+                                        };
+                                        // Hiển thị Role với Badge (nhãn)
+                                        <span class="badge @roleClass fw-bold p-2">@item.Role?.Name</span>
+                                    }
+                                </td>
+                                <td>
+                                    @{
+                                        var currentAccountId = Context.Session.GetInt32("id");
+
+                                        if (item.Id == currentAccountId)
+                                        {
+                                            <span class="badge bg-secondary p-2">Khong the tu chinh sua</span>
+                                        }
+                                        else
+                                        {
+                                            <a asp-action="EditAssignment" asp-route-id="@item.Id" class="btn btn-sm btn-warning shadow-sm">
+                                                <i class="bi bi-person-fill-gear"></i> Thay doi Role
+                                            </a>
+                                        }
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

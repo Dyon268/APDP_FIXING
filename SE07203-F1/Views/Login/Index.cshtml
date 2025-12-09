@@ -1,0 +1,43 @@
+﻿@{
+    var roles = ViewBag.Roles as List<SE07203_F1.Models.Role>;
+    var errorMessage = ViewBag.ErrorMessage as string;
+}
+
+<h1 class="text-center mb-4">Login</h1>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-4">
+
+            @if (!string.IsNullOrEmpty(errorMessage))
+            {
+                <div class="alert alert-danger">@errorMessage</div>
+            }
+
+            <form asp-action="Login" asp-controller="Login" method="POST">
+                <div class="mb-3">
+                    <label class="form-label">Username</label>
+                    <input type="text" class="form-control" name="username" required />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-control" name="password" required />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Role</label>
+                    <select class="form-select" name="roleId" required>
+                        @foreach (var r in roles)
+                        {
+                            <option value="@r.Id">@r.Name</option>
+                        }
+                    </select>
+                </div>
+
+                <button class="btn btn-success w-100">Login</button>
+            </form>
+
+        </div>
+    </div>
+</div>
